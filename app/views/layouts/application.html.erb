@@ -11,6 +11,16 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%# Flash Message %>
+    <% flash.each do |key, value| %>
+      <% if key == :notice %>
+        <div class="alert alert-success"><%= value %></div>
+      <% elsif key == :alert %>
+        <div class="alert alert-danger"><%= value %></div>
+      <% else %>
+        <div class="alert alert-info"><%= value %></div>
+      <% end %>
+    <% end %>
+  <%= yield %>
   </body>
 </html>

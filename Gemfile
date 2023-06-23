@@ -73,3 +73,6 @@ end
 
 # Rubocop
 gem 'rubocop-rails', require: false
+
+# Devise
+gem 'devise'

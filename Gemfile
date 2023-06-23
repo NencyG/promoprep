@@ -76,3 +76,12 @@ gem 'rubocop-rails', require: false
 
 # Devise
 gem 'devise'
+
+# Bootstrap 
+gem 'bootstrap-sass', '~> 3.3.7'
+
+# Jquery
+gem 'jquery-rails'
+
+# Sass
+gem 'sass-rails', '~> 5.0'

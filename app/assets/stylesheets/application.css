@@ -13,3 +13,27 @@
  *= require_tree .
  *= require_self
  */
+
+ /* // Add Font Brand Name  */
+
+  .navbar {
+    display: flex;
+    align-items: center; /* to vertically center the items */
+    height: 50px; /* set desired height */
+  }
+
+ .link-name {
+    display: block;
+    text-decoration: none;
+    background: 0 0;
+    border: 0;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    color: white;
+    font-family: fantasy;
+    padding-right: 20px;
+    font-size: 18px;
+  }
+
+  .navbar-div {
+    padding-bottom: 50px;
+  }

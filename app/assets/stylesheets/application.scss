@@ -14,12 +14,14 @@
  *= require_self
  */
 
+@import "bootstrap";
+
  /* // Add Font Brand Name  */
 
   .navbar {
     display: flex;
-    align-items: center; /* to vertically center the items */
-    height: 50px; /* set desired height */
+    align-items: center;
+    height: 50px;
   }
 
  .link-name {

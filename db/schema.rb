@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_626_070_551) do
+ActiveRecord::Schema[7.0].define(version: 20_230_626_104_619) do
   create_table 'companies', force: :cascade do |t|
     t.string 'name'
     t.string 'email'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
+    t.integer 'user_id', null: false
+    t.index ['user_id'], name: 'index_companies_on_user_id'
   end
 
   create_table 'promos', force: :cascade do |t|
@@ -23,10 +25,10 @@ ActiveRecord::Schema[7.0].define(version: 20_230_626_070_551) do
     t.date 'start_date'
     t.date 'end_date'
     t.text 'description'
-    t.integer 'companies_id', null: false
+    t.integer 'company_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['companies_id'], name: 'index_promos_on_companies_id'
+    t.index ['company_id'], name: 'index_promos_on_company_id'
   end
 
   create_table 'users', force: :cascade do |t|
@@ -59,5 +61,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_626_070_551) do
     t.index ['unlock_token'], name: 'index_users_on_unlock_token', unique: true
   end
 
-  add_foreign_key 'promos', 'companies', column: 'companies_id'
+  add_foreign_key 'companies', 'users'
+  add_foreign_key 'promos', 'companies'
 end

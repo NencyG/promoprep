@@ -14,7 +14,7 @@
  *= require_self
  */
 
-@import "bootstrap";
+  @import "bootstrap";
 
  /* // Add Font Brand Name  */
 
@@ -38,4 +38,16 @@
 
   .navbar-div {
     padding-bottom: 50px;
+  }
+
+  .company-title {
+    text-align: center;
+    padding-top: 10px;
+    font-family: Optima;
+  }
+
+  
+  #new_company {
+    padding-top: 20px;
+    text-align: center;
   }

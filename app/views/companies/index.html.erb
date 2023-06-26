@@ -1,5 +1,9 @@
 <h1 class='company-title'>Companies</h1>
 
+<div id='new_company'> 
+  <%= link_to "New company", new_company_path, class: 'btn btn-outline-success' %>
+</div>
+
 <div id="companies">
   <% @companies.each do |company| %>
     <%= render company %>
@@ -7,8 +11,4 @@
       <%= link_to "Show this company", company %>
     </p>
   <% end %>
-</div>
-
-<div id='new_company'> 
-  <%= link_to "New company", new_company_path, class: 'btn btn-outline-success' %>
 </div>

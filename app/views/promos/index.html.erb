@@ -1,6 +1,8 @@
-<p style="color: green"><%= notice %></p>
+<h1 class='company-title'>Promos</h1>
 
-<h1>Promos</h1>
+<div id='new_company'>
+  <%= link_to "New promo", new_promo_path, class: 'btn btn-outline-success'  %>
+</div>
 
 <div id="promos">
   <% @promos.each do |promo| %>
@@ -11,4 +13,3 @@
   <% end %>
 </div>
 
-<%= link_to "New promo", new_promo_path %>

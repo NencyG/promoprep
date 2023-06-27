@@ -32,7 +32,7 @@
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
     color: white;
     font-family: fantasy;
-    padding-right: 20px;
+    padding-right: 45px;
     font-size: 18px;
   }
 
@@ -116,8 +116,27 @@
     border-bottom: 2px solid #e3e4e7; 
   }
 
-@media (min-width: 768px) {
-.table-connection tbody td:nth-child(odd) {
-  background: #f4f6fc;
-} 
-}
+  @media (min-width: 768px) {
+  .table-connection tbody td:nth-child(odd) {
+    background: #f4f6fc;
+  } 
+  }
+
+  .dropdown {
+    padding-top: 20px;
+  }
+
+  .select {
+    padding-left: 120px;
+    padding-bottom: 20px;
+    font-family: Optima;
+  }
+
+  .company-dropdwon {
+    padding: 5px;
+    padding-right: 2px;
+  }
+
+  .name-tag {
+    font-size: 20PX;
+  }

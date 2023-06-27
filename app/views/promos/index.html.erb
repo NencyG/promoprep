@@ -4,39 +4,8 @@
   <%= link_to "New promo", new_promo_path, class: 'btn btn-outline-success'  %>
 </div>
 
-<section class="ftco-section">
-  <div class="container">
-        <div class="table-wrap">
-          <table class="table-connection">
-            <thead class="thead-primary">
-             <tr>
-                <th>Index</th>
-                <th>Promo Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Description</th>
-                <th>Show this promo</th>
-              </tr>
-            </thead>
-            <tbody>
-            <% if @promos.present? %>
-              <% @promos.each.with_index(1) do |promo, index| %>
-                <tr>
-                  <th scope="row" class="scope" ><%= index %></th>
-                  <td><%= promo.name %></td>
-                  <td><%= promo.start_date %></td>
-                  <td><%= promo.end_date %></td>
-                  <td><%= promo.description %></td>
-                  <td><%= link_to "Show this promo", promo, class: "btn btn-outline-info" %></td>
-                </tr>
-              <%end%>
-            <% else%>
-              <% p "Promo is not avalibale"%>
-            <% end %>
-            </tbody>
-          </table>
-        </div>  
-      </div>
-    </div>
-  </div>
-</section>
+<div class= 'select'>
+  <%= collection_select :promo, :company_id, Company.all, :id, :name %>
+</div>
+
+<%= render 'promos/filtered_table', promos: @promos %>

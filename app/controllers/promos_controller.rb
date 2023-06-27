@@ -5,7 +5,11 @@ class PromosController < ApplicationController
   before_action :set_promo, only: %i[show edit update destroy]
 
   def index
-    @promos = Promo.all
+    if params[:company_id]
+      @promos = Promo.where(company_id: params[:company_id])
+    else
+      @promos = Promo.all
+    end
   end
 
   def show; end
@@ -43,6 +47,13 @@ class PromosController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to promos_url, notice: 'Promo was successfully destroyed.' }
+    end
+  end
+
+  def filtter
+    @company_name = Promo.where('location' => params[:requested_area])
+    respond_to do |format|
+      format.js
     end
   end
 

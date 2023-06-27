@@ -1,14 +1,7 @@
 <h1 class='company-title'>Companies</h1>
 
 <div id='new_company'> 
-  <%= link_to "New company", new_company_path, class: 'btn btn-outline-success' %>
+  <%= link_to "Add New company", new_company_path, class: 'btn btn-outline-success' %>
 </div>
 
-<div id="companies">
-  <% @companies.each do |company| %>
-    <%= render company %>
-    <p>
-      <%= link_to "Show this company", company %>
-    </p>
-  <% end %>
-</div>
+<%= render 'promos/filtered_table'%>

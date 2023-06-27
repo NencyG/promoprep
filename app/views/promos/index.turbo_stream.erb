@@ -1,0 +1,3 @@
+<%= turbo_stream.replace("promo-list") do %>
+  <%= render 'promos/filtered_table', promos: @promos %>
+<% end %>

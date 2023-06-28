@@ -4,4 +4,33 @@
   <%= link_to "Add New company", new_company_path, class: 'btn btn-outline-success' %>
 </div>
 
-<%= render 'promos/filtered_table'%>
+<% unless @companies.count.zero?  %>
+  <section class="ftco-section">
+    <div class="container">
+      <div class="table-wrap" >
+          <table class="table-connection">
+            <thead class="thead-primary">
+              <tr>
+                <th>Index</th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @companies.each.with_index(1) do |companies, index| %>
+                <tr>  
+                  <th scope="row" class="scope" ><%= index %></th>
+                  <td><%= companies.name %></td>
+                  <td><%= companies.email %></td>
+                  <td><%=link_to "Edit", edit_company_path(companies), class: "btn btn-outline-primary" %></td>
+                  <td><%= button_to "Destroy", companies, method: :delete, class: "btn btn-outline-danger"%></td>
+                </tr>
+              <%end%>
+            </tbody>
+          </table>
+      </div>  
+    </div>
+  </section>
+<% end %>

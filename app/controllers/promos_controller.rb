@@ -5,11 +5,12 @@ class PromosController < ApplicationController
   before_action :set_promo, only: %i[show edit update destroy]
 
   def index
-    if params[:company_id]
-      @promos = Promo.where(company_id: params[:company_id])
-    else
-      @promos = Promo.all
-    end
+    @option = Company.where(user_id: current_user.id)
+    @promos = if params[:company_id]
+                Promo.where(company_id: params[:company_id])
+              else
+                @option.first.promos
+              end
   end
 
   def show; end

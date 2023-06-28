@@ -140,3 +140,21 @@
   .name-tag {
     font-size: 20PX;
   }
+
+/*--------------------------------------------------------------
+# Company form
+--------------------------------------------------------------*/ 
+  .company-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    font-family: Optima;
+    padding-top: 20px;
+  }
+
+  .company_tittle {
+    font-family: Optima;
+    text-align: center;
+    padding-top: 20px;
+  }

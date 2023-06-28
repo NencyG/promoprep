@@ -5,7 +5,7 @@
 </div>
 
 <div class= 'select'>
-  <%= collection_select :promo, :company_id, Company.all, :id, :name %>
+  <span class='name-tag'>Select company :- </span><%= collection_select :promo, :company_id, Company.all, :id, :name %>
 </div>
 
 <%= render 'promos/filtered_table', promos: @promos %>

@@ -13,7 +13,6 @@ document.addEventListener("turbo:load", function () {
 
 $("#promo_company_id").on("change", function () {
   var compyid = $(this).val();
-  console.log($(this).val())
   let frame = document.querySelector("turbo-frame#promo-list");
-  frame.src = '/promos?company_id=1&format=turbo_stream'
+  frame.src = '/promos?company_id='+ compyid +'&format=turbo_stream'
 });

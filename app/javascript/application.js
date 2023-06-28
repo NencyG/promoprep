@@ -2,17 +2,11 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "jquery"
-// import "custom/table"
+import "./main"
 //= require bootstrap.min
 
 document.addEventListener("turbo:load", function () {
   setTimeout(function() {
     $('.alert').remove();
   }, 5000);
-});
-
-$("#promo_company_id").on("change", function () {
-  var compyid = $(this).val();
-  let frame = document.querySelector("turbo-frame#promo-list");
-  frame.src = '/promos?company_id='+ compyid +'&format=turbo_stream'
 });

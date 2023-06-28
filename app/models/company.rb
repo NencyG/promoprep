@@ -3,6 +3,7 @@
 # company modal
 class Company < ApplicationRecord
   belongs_to :user
+  has_many :filter_options, dependent: :destroy
   has_many :promos, dependent: :destroy
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true,

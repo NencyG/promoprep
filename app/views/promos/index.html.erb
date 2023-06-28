@@ -1,0 +1,11 @@
+<h1 class='company-title'>Promos</h1>
+
+<div id='new_company'>
+  <%= link_to "New promo", new_promo_path, class: 'btn btn-outline-success'  %>
+</div>
+
+<div class= 'select'>
+  <span class='name-tag'>Select company :- </span><%= collection_select :promo, :company_id, @companies, :id, :name, selected: @selected_companies %>
+</div>
+
+<%= render 'promos/filtered_table', promos: @promos %>

@@ -6,7 +6,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       <%= link_to "Promopre", root_path, class: "link-name"%>
-      <%= link_to "Company", companies_path, class: "link-name"%>
+      <% if current_user.present? %>
+        <%= link_to "Company", companies_path, class: "link-name"%>
+        <%= link_to "Promo", promos_path, class: "link-name"%>
+      <% end %>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
           </li>

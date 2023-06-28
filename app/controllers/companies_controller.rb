@@ -17,7 +17,7 @@ class CompaniesController < ApplicationController
   def edit; end
 
   def create
-    @company = Company.new(company_params)
+    @company = Company.new(company_params.merge!(user_id: current_user.id))
 
     respond_to do |format|
       if @company.save

@@ -1,0 +1,38 @@
+<% if promos.exists?  %>
+  <section class="ftco-section">
+    <div class="container">
+      <div class="table-wrap" >
+        <%= turbo_frame_tag "promo-list" do %>
+          <table class="table-connection">
+            <thead class="thead-primary">
+              <tr>
+                <th>Index</th>
+                <th>Promo Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Description</th>
+                <th>Company Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% promos.each.with_index(1) do |promo, index| %>
+                <tr>  
+                  <th scope="row" class="scope" ><%= index %></th>
+                  <td><%= promo.name %></td>
+                  <td><%= promo.start_date %></td>
+                  <td><%= promo.end_date %></td>
+                  <td><%= promo.description %></td>
+                  <td><%= Company.find_by_id(promo.company_id).name  %></td>
+                  <td><%= link_to "Edit", edit_promo_path(promo),class: "btn btn-outline-primary" %></td>
+                  <td><%= button_to "Destroy", promo, method: :delete, class: "btn btn-outline-danger" %></td>
+                </tr>
+              <%end%>
+            </tbody>
+          </table>
+        <% end %>
+      </div>  
+    </div>
+  </section>
+<% end %>

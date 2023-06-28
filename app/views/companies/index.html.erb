@@ -1,14 +1,36 @@
 <h1 class='company-title'>Companies</h1>
 
-<div id="companies">
-  <% @companies.each do |company| %>
-    <%= render company %>
-    <p>
-      <%= link_to "Show this company", company %>
-    </p>
-  <% end %>
+<div id='new_company'> 
+  <%= link_to "Add New company", new_company_path, class: 'btn btn-outline-success' %>
 </div>
 
-<div id='new_company'> 
-  <%= link_to "New company", new_company_path, class: 'btn btn-outline-success' %>
-</div>
+<% if @companies.exists? %>
+  <section class="ftco-section">
+    <div class="container">
+      <div class="table-wrap" >
+          <table class="table-connection">
+            <thead class="thead-primary">
+              <tr>
+                <th>Index</th>
+                <th>Company Name</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @companies.each.with_index(1) do |companies, index| %>
+                <tr>  
+                  <th scope="row" class="scope" ><%= index %></th>
+                  <td><%= companies.name %></td>
+                  <td><%= companies.email %></td>
+                  <td><%=link_to "Edit", edit_company_path(companies), class: "btn btn-outline-primary" %></td>
+                  <td><%= button_to "Destroy", companies, method: :delete, class: "btn btn-outline-danger"%></td>
+                </tr>
+              <%end%>
+            </tbody>
+          </table>
+      </div>  
+    </div>
+  </section>
+<% end %>

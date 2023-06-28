@@ -52,13 +52,6 @@ class PromosController < ApplicationController
     end
   end
 
-  def filtter
-    @company_name = Promo.where('location' => params[:requested_area])
-    respond_to do |format|
-      format.js
-    end
-  end
-
   private
 
   def set_promo

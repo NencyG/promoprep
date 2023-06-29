@@ -12,6 +12,7 @@ class CompaniesController < ApplicationController
 
   def new
     @company = Company.new
+    @company.filter_options.build
   end
 
   def edit; end
@@ -53,6 +54,11 @@ class CompaniesController < ApplicationController
   end
 
   def company_params
-    params.require(:company).permit(:name, :email)
+    params.require(:company).permit(:name, :email, filter_options_attributes: %i[
+                                      id
+                                      name
+                                      is_active
+                                      _destroy
+                                    ])
   end
 end

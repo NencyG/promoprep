@@ -1,4 +1,4 @@
-<%= form_with(model: company) do |form| %>
+<%= form_for @company do |f| %>
   <% if company.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(company.errors.count, "error") %> prohibited this company from being saved:</h2>
@@ -13,18 +13,26 @@
 
   <div class="company-form">
     <div>
-      <%= form.label :name, style: "display: block" %>
-      <%= form.text_field :name, class: "form-control", placeholder: "Enter Name.." %><br>
+      <%= f.label :name, style: "display: block" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "Enter Name.." %><br>
     </div>
 
     <div>
-      <%= form.label :email, style: "display: block" %>
-      <%= form.text_field :email, class: "form-control", placeholder: "Enter Email.."  %><br>
+      <%= f.label :email, style: "display: block" %>
+      <%= f.text_field :email, class: "form-control", placeholder: "Enter Email.."  %><br>
+        <h3>Tasks</h3>
+        <div id="filter_options">
+          <%= f.fields_for :filter_options do |task| %>
+            <%= render "companies/filter_fields", f: task %>
+          <% end %>
+          <div class="links">
+            <%= link_to_add_association "Add filter option", f, :filter_options, partial: 'companies/filter_fields' %>
+          </div>
+        </div>
     </div>
 
-    <div  >
-      <%= form.submit 'Submit', class: "btn btn-success" %><br>
+    <div>
+      <br><%= f.submit 'Submit', class: "btn btn-success" %><br>
     </div>
   </div>
 <% end %>
-

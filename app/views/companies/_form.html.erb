@@ -20,13 +20,13 @@
     <div>
       <%= f.label :email%>
       <%= f.text_field :email, class: "form-control", placeholder: "Enter Email.."  %><br>
-        <h3>Tasks</h3>
+        <h3 class='company_tittle'>Add Filter</h3>
         <div id="filter_options">
           <%= f.fields_for :filter_options do |task| %>
             <%= render "companies/filter_fields", f: task %>
           <% end %>
           <div class="links">
-            <%= link_to_add_association "Add filter option", f, :filter_options, partial: 'companies/filter_fields' %>
+            <br><%= link_to_add_association "Add Filter Option", f, :filter_options, partial: 'companies/filter_fields', class: "btn btn-outline-primary"  %>
           </div>
         </div>
     </div>

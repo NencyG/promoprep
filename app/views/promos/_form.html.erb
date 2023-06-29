@@ -13,30 +13,32 @@
 
   <div>
     <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: "form-control" %><br>
   </div>
 
-  <div>
+  <div class="md-form md-outline input-with-post-icon datepicker" id="customDays">
     <%= form.label :start_date, style: "display: block" %>
-    <%= form.date_field :start_date %>
+    <%= form.date_field :start_date, placeholder: "Select date", id: "Customization", class: "form-control" %><br>
+    <i class="fas fa-calendar input-prefix" tabindex=0></i>
   </div>
 
   <div>
     <%= form.label :end_date, style: "display: block" %>
-    <%= form.date_field :end_date %>
+    <%= form.date_field :end_date, id: "Customization", class: "form-control" %><br>
+    <i class="fas fa-calendar input-prefix" tabindex=0></i>
   </div>
 
   <div>
     <%= form.label :description, style: "display: block" %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, id: "Customization", class: "form-control"  %><br>
   </div>
 
   <div>
     <%= form.label :company_id, style: "display: block" %>
-    <%= form.text_field :company_id %>
+    <%= form.text_field :company_id, class: "form-control"%><br>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit 'Submit', class: "btn btn-success" %>
   </div>
 <% end %>

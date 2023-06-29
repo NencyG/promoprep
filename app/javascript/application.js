@@ -3,6 +3,7 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import "jquery"
 import "./main"
+import "@nathanvda/cocoon"
 //= require bootstrap.min
 
 document.addEventListener("turbo:load", function () {

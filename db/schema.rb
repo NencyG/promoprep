@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_626_104_619) do
+ActiveRecord::Schema[7.0].define(version: 20_230_628_112_117) do
   create_table 'companies', force: :cascade do |t|
     t.string 'name'
     t.string 'email'
@@ -18,6 +18,15 @@ ActiveRecord::Schema[7.0].define(version: 20_230_626_104_619) do
     t.datetime 'updated_at', null: false
     t.integer 'user_id', null: false
     t.index ['user_id'], name: 'index_companies_on_user_id'
+  end
+
+  create_table 'filter_options', force: :cascade do |t|
+    t.string 'name'
+    t.boolean 'is_active'
+    t.integer 'company_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['company_id'], name: 'index_filter_options_on_company_id'
   end
 
   create_table 'promos', force: :cascade do |t|
@@ -62,5 +71,5 @@ ActiveRecord::Schema[7.0].define(version: 20_230_626_104_619) do
   end
 
   add_foreign_key 'companies', 'users'
-  add_foreign_key 'promos', 'companies'
-end
+  add_foreign_key 'filter_options', 'companies'
+  add_foreign_key 'promos', 'companies'end

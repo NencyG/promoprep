@@ -85,3 +85,6 @@ gem 'jquery-rails'
 
 # Sass
 gem 'sass-rails', '~> 5.0'
+
+# For Nested form
+gem 'cocoon'

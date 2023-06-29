@@ -40,18 +40,6 @@
     padding-bottom: 50px;
   }
 
-  .company-title {
-    text-align: center;
-    padding-top: 10px;
-    font-family: Optima;
-  }
-
-  #new_company {
-    padding-top: 20px;
-    text-align: center;
-    padding-bottom: 20px;
-  }
-
 /*--------------------------------------------------------------
 # Table
 --------------------------------------------------------------*/ 
@@ -144,17 +132,8 @@
 /*--------------------------------------------------------------
 # Company form
 --------------------------------------------------------------*/ 
-  .company-form {
-    display: flex;
-    // justify-content: center;
-    // align-items: center;
-    flex-direction: column; 
-    font-family: Optima;
-    padding-top: 20px;
-  }
 
-  .company_tittle {
-    font-family: Optima;
-    // text-align: center;
-    padding-top: 20px;
-  }
+.company-title {
+  text-align: center;
+  font-family: Optima;
+}

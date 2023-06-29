@@ -34,7 +34,7 @@
   </div>
 
   <div>
-    <span>Select Company</span><%= form.collection_select(:company_id, @company, :id, :name, {}, class: "form-control" , data: { style: "form-control", size: "5" }) %><br>
+    <span>Select Company</span><%= form.collection_select(:company_id, @company, :id, :name, {}, class: "form-control" , id: 'select_company', data: { style: "form-control", size: "5" })%><br>
   </div>
 
   <div>

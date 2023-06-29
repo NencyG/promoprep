@@ -31,10 +31,10 @@ ActiveRecord::Schema[7.0].define(version: 20_230_629_103_659) do
 
   create_table 'promo_filter_options', force: :cascade do |t|
     t.integer 'promo_id', null: false
-    t.integer 'filter_options_id', null: false
+    t.integer 'filter_option_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index ['filter_options_id'], name: 'index_promo_filter_options_on_filter_options_id'
+    t.index ['filter_option_id'], name: 'index_promo_filter_options_on_filter_option_id'
     t.index ['promo_id'], name: 'index_promo_filter_options_on_promo_id'
   end
 
@@ -81,7 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_629_103_659) do
 
   add_foreign_key 'companies', 'users'
   add_foreign_key 'filter_options', 'companies'
-  add_foreign_key 'promo_filter_options', 'filter_options', column: 'filter_options_id'
+  add_foreign_key 'promo_filter_options', 'filter_options'
   add_foreign_key 'promo_filter_options', 'promos'
   add_foreign_key 'promos', 'companies'
 end

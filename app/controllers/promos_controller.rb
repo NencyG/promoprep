@@ -18,6 +18,7 @@ class PromosController < ApplicationController
 
   def new
     @promo = Promo.new
+    @company = current_user.company
   end
 
   def edit; end

@@ -34,8 +34,7 @@
   </div>
 
   <div>
-    <%= form.label :company_id, style: "display: block" %>
-    <%= form.text_field :company_id, class: "form-control"%><br>
+    <span>Select Company</span><%= form.collection_select(:company_id, @company, :id, :name, {}, class: "form-control" , data: { style: "form-control", size: "5" }) %><br>
   </div>
 
   <div>

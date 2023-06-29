@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_628_112_117) do
+ActiveRecord::Schema[7.0].define(version: 20_230_629_094_334) do
   create_table 'companies', force: :cascade do |t|
     t.string 'name'
     t.string 'email'
@@ -27,6 +27,15 @@ ActiveRecord::Schema[7.0].define(version: 20_230_628_112_117) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.index ['company_id'], name: 'index_filter_options_on_company_id'
+  end
+
+  create_table 'promo_filter_options', force: :cascade do |t|
+    t.integer 'company_id', null: false
+    t.integer 'filter_options_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['company_id'], name: 'index_promo_filter_options_on_company_id'
+    t.index ['filter_options_id'], name: 'index_promo_filter_options_on_filter_options_id'
   end
 
   create_table 'promos', force: :cascade do |t|
@@ -72,4 +81,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_628_112_117) do
 
   add_foreign_key 'companies', 'users'
   add_foreign_key 'filter_options', 'companies'
-  add_foreign_key 'promos', 'companies'end
+  add_foreign_key 'promo_filter_options', 'companies'
+  add_foreign_key 'promo_filter_options', 'filter_options', column: 'filter_options_id'
+  add_foreign_key 'promos', 'companies'
+end

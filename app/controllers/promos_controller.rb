@@ -3,15 +3,13 @@
 # Promo controller
 class PromosController < ApplicationController
   before_action :set_promo, only: %i[show edit update destroy]
+  before_action :company_option, only: %i[show new edit create]
+  before_action :find_filter_option, only: %i[new edit]
 
   def index
     @companies = Company.where(user_id: current_user.id)
     @selected_companies = @companies.first
-    @promos = if params[:company_id]
-                Promo.where(company_id: params[:company_id])
-              else
-                @selected_companies.promos
-              end
+    @promos = params[:company_id].present? ? Promo.where(company_id: params[:company_id]) : @selected_companies.promos
   end
 
   def show; end
@@ -24,7 +22,6 @@ class PromosController < ApplicationController
 
   def create
     @promo = Promo.new(promo_params)
-
     respond_to do |format|
       if @promo.save
         format.html { redirect_to promo_url(@promo), notice: 'Promo was successfully created.' }
@@ -59,6 +56,15 @@ class PromosController < ApplicationController
   end
 
   def promo_params
-    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id)
+    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id, :promo_id, filter_option_ids: [])
+  end
+
+  def find_filter_option
+    @selected_companies = params[:company_id].present? ? Company.find_by(id: params[:company_id]) : @company.first
+    @filter_option = FilterOption.where(company_id: @selected_companies.id)
+  end
+
+  def company_option
+    @company = current_user.company
   end
 end

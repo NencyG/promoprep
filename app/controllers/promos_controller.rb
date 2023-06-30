@@ -14,7 +14,9 @@ class PromosController < ApplicationController
               end
   end
 
-  def show; end
+  def show
+    @company = current_user.company
+  end
 
   def new
     @promo = Promo.new
@@ -27,7 +29,16 @@ class PromosController < ApplicationController
                       end
   end
 
-  def edit; end
+  def edit
+    @company = current_user.company
+    @company = current_user.company
+    @selected_companies = @company.first
+    @select_company = if params[:company_id]
+                        FilterOption.where(company_id: params[:company_id])
+                      else
+                        FilterOption.where(company_id: @selected_companies.id)
+                      end
+  end
 
   def create
     @promo = Promo.new(promo_params)

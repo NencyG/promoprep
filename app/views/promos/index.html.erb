@@ -7,4 +7,5 @@
 <div class= 'select'>
   <span class='name-tag'>Select company :- </span><%= collection_select :promo, :company_id, @companies, :id, :name, selected: @selected_companies %>
 </div>
-  <%= render 'promos/filtered_table', promos: @promos %>
+
+<%= render 'promos/filtered_table', promos: @promos %>

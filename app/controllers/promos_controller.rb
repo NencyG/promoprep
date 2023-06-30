@@ -19,7 +19,12 @@ class PromosController < ApplicationController
   def new
     @promo = Promo.new
     @company = current_user.company
-    @select_company = FilterOption.where(company_id: params[:company_id])
+    @selected_companies = @company.first
+    @select_company = if params[:company_id]
+                        FilterOption.where(company_id: params[:company_id])
+                      else
+                        FilterOption.where(company_id: @selected_companies.id)
+                      end
   end
 
   def edit; end

@@ -39,7 +39,7 @@
   <div>
     <span>Select Filter</span>
       <%= turbo_frame_tag "filter-list" do %>
-        <%= form.collection_select(:filter_option_ids, @select_company, :id, :name, {}, multiple: true, class: "form-control")%><br>
+        <%= form.collection_select(:filter_option_ids, @select_company, :id, :name, {}, multiple: true, selected: @selected_companies , class: "form-control") %><br>
       <% end %>
   </div>
 

@@ -10,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name, class: "form-control" %><br>
@@ -38,7 +37,10 @@
   </div>
 
   <div>
-    <span>Select Filter</span><%= form.collection_select(:filter_option_ids, FilterOption.all, :id, :name, {}, multiple: true, class: "form-control" , id: 'select_filter')%><br>
+    <span>Select Filter</span>
+      <%= turbo_frame_tag "filter-list" do %>
+        <%= form.collection_select(:filter_option_ids, @select_company, :id, :name, {}, multiple: true, class: "form-control")%><br>
+      <% end %>
   </div>
 
   <div>  

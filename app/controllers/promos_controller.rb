@@ -25,7 +25,7 @@ class PromosController < ApplicationController
 
   def create
     @promo = Promo.new(promo_params)
-
+    @company = current_user.company
     respond_to do |format|
       if @promo.save
         format.html { redirect_to promo_url(@promo), notice: 'Promo was successfully created.' }
@@ -60,6 +60,6 @@ class PromosController < ApplicationController
   end
 
   def promo_params
-    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id)
+    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id, :promo_id, filter_option_ids: [])
   end
 end

@@ -4,7 +4,7 @@
 class PromosController < ApplicationController
   before_action :set_promo, only: %i[show edit update destroy]
   before_action :company_option, only: %i[show new edit create]
-  before_action :find_filter_option, only: %i[new edit]
+  before_action :find_filter_option, only: %i[new edit create]
 
   def index
     @companies = Company.where(user_id: current_user.id)

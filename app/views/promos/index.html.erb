@@ -9,7 +9,7 @@
 </div>
 
 <div id = 'promo-filter' class= 'select'>
-  <span class='name-tag'>Select Filter :- </span><%= collection_select :promo, :filter_option_ids, @filter_option, :id, :name %>
+  <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_option, "id", "name")%>
 </div>
 
 <%= render 'promos/filtered_table', promos: @promos %>

@@ -10,6 +10,8 @@ class PromosController < ApplicationController
     @companies = Company.where(user_id: current_user.id)
     @selected_companies = @companies.first
     @promos = params[:company_id].present? ? Promo.where(company_id: params[:company_id]) : @selected_companies.promos
+    @company = Company.find_by_id(params[:company_id])
+    @filter_option = params[:company_id].present? ? @company.filter_options : Company.first.filter_options
   end
 
   def show; end

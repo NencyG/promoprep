@@ -24,7 +24,7 @@
                   <td><%= promo.start_date %></td>
                   <td><%= promo.end_date %></td>
                   <td><%= promo.description %></td>
-                  <td><%= Company.find_by_id(promo.company_id).name  %></td>
+                  <td><%= promo.company.name %></td>
                   <td><%= link_to "Edit", edit_promo_path(promo),class: "btn btn-outline-primary" %></td>
                   <td><%= button_to "Destroy", promo, method: :delete, class: "btn btn-outline-danger" %></td>
                 </tr>

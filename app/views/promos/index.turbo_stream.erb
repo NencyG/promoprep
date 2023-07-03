@@ -1,3 +1,7 @@
 <%= turbo_stream.update("promo-list") do %>
   <%= render 'promos/filtered_table', promos: @promos %>
 <% end %>
+
+<%= turbo_stream.update("promo-filter") do %>
+   <span class='name-tag'>Select Filter :- </span><%= collection_select :promo, :filter_option_ids, @filter_option, :id, :name %>
+<% end %>

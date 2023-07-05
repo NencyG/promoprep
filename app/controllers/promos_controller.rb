@@ -7,11 +7,19 @@ class PromosController < ApplicationController
   before_action :find_filter_option, only: %i[new edit create]
 
   def index
-    @companies = Company.where(user_id: current_user.id)
-    @selected_companies = @companies.first
-    @promos = params[:company_id].present? ? Promo.where(company_id: params[:company_id]) : @selected_companies.promos
-    @company = Company.find_by_id(params[:company_id])
-    @filter_option = params[:company_id].present? ? @company.filter_options : Company.first.filter_options
+    @companies = Company.left_joins(:promos).where(user_id: current_user.id).uniq
+    @selected_company = params[:company_id].present? ? Company.find_by_id(params[:company_id]) : @companies.first
+    @filter_option_id = params[:filter_option_id]
+    @promos = if params[:company_id].present? && @filter_option_id.present?
+                Promo.joins(:filter_options)
+                     .group('promos.id').select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+                     .where('filter_options.id IN (?)', @filter_option_id.split(','))
+              else
+                @selected_company.promos.joins(:filter_options)
+                                 .group('promos.id')
+                                 .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+              end
+    @filter_option = @selected_company.filter_options
   end
 
   def show; end
@@ -58,7 +66,8 @@ class PromosController < ApplicationController
   end
 
   def promo_params
-    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id, :promo_id, filter_option_ids: [])
+    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id, :promo_id,
+                                  filter_option_ids: [])
   end
 
   def find_filter_option
@@ -70,3 +79,12 @@ class PromosController < ApplicationController
     @company = current_user.company
   end
 end
+
+# Promo.joins(:filter_options)
+#       .group("promos.id").select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+#       .where('filter_options.id IN (?)', [4,5]).first.fname
+
+# if params[:company_id].present? && @filter_option_id.present?
+# Promo.joins(:filter_options)
+#      .group("promos.id").select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+#      .where('filter_options.id IN (?)', [@filter_option_id.to_i])

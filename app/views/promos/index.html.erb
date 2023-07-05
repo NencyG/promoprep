@@ -9,7 +9,12 @@
 </div>
 
 <div id = 'promo-filter' class= 'select'>
-  <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_option, "id", "name")%>
+  <% if @selected_company.filter_options.present? %>
+    <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_option, "id", "name", selected: @filter_option.pluck(:id)), multiple: true, class: "form-control" %>
+  <% end %>
 </div>
 
-<%= render 'promos/filtered_table', promos: @promos %>
+<%= turbo_frame_tag "promo-list" do %>
+  <%= render 'promos/filtered_table', promos: @promos %>
+<% end %>
+

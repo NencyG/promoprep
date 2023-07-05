@@ -1,21 +1,21 @@
-<% if promos.exists?  %>
+<% if @promos.present? %>
   <section class="ftco-section">
     <div class="container">
       <div class="table-wrap" >
-        <%= turbo_frame_tag "promo-list" do %>
-          <table class="table-connection">
-            <thead class="thead-primary">
-              <tr>
-                <th>Index</th>
-                <th>Promo Name</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Description</th>
-                <th>Company Name</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
+        <table class="table-connection">
+          <thead class="thead-primary">
+            <tr>
+              <th>Index</th>
+              <th>Promo Name</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Description</th>
+              <th>Company</th>
+              <th>Filter Name</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
             <tbody>
               <% promos.each.with_index(1) do |promo, index| %>
                 <tr>  
@@ -25,14 +25,16 @@
                   <td><%= promo.end_date %></td>
                   <td><%= promo.description %></td>
                   <td><%= promo.company.name %></td>
+                  <td><%= promo.fname %></td>
                   <td><%= link_to "Edit", edit_promo_path(promo),class: "btn btn-outline-primary" %></td>
                   <td><%= button_to "Destroy", promo, method: :delete, class: "btn btn-outline-danger" %></td>
                 </tr>
               <%end%>
             </tbody>
-          </table>
-        <% end %>
+        </table>
       </div>  
     </div>
   </section>
-<% end %>
+<% else %> 
+  <h1 class='available'>Promo is not Available</h1>
+ <% end %>

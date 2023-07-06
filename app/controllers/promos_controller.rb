@@ -80,12 +80,3 @@ class PromosController < ApplicationController
     @company = current_user.company
   end
 end
-
-# Promo.joins(:filter_options)
-#       .group("promos.id").select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
-#       .where('filter_options.id IN (?)', [4,5]).first.fname
-
-# if params[:company_id].present? && @filter_option_id.present?
-# Promo.joins(:filter_options)
-#      .group("promos.id").select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
-#      .where('filter_options.id IN (?)', [@filter_option_id.to_i])

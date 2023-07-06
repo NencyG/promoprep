@@ -11,13 +11,14 @@ class PromosController < ApplicationController
     @selected_company = params[:company_id].present? ? Company.find_by_id(params[:company_id]) : @companies.first
     @filter_option_id = params[:filter_option_id]
     @promos = if params[:company_id].present? && @filter_option_id.present?
-                Promo.joins(:filter_options)
-                     .group('promos.id').select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+                Promo.joins(:filter_options, :company)
+                     .group('promos.id')
+                     .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname, (companies.name) AS company_name")
                      .where('filter_options.id IN (?)', @filter_option_id.split(','))
               else
-                @selected_company.promos.joins(:filter_options)
+                @selected_company.promos.joins(:filter_options, :company)
                                  .group('promos.id')
-                                 .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+                                 .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname, (companies.name) AS company_name")
               end
     @filter_option = @selected_company.filter_options
   end

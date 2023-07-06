@@ -10,4 +10,5 @@ class Promo < ApplicationRecord
   validates_presence_of :end_date
   validates :description, presence: true, length: { minimum: 5 }
   validates_presence_of :promo_filter_options
+  default_scope { order(created_at: :desc) }
 end

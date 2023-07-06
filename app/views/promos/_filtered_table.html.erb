@@ -25,7 +25,10 @@
                   <td><%= promo.end_date %></td>
                   <td><%= promo.description %></td>
                   <td><%= @selected_companys.name %></td>
-                  <td><%= promo.fname %></td>
+                  <td>
+                    <% filter_name = promo.filter_options.map(&:name).join(', ') %>
+                    <%= filter_name %>
+                  </td>
                   <td><%= link_to "Edit", edit_promo_path(promo), class: "btn btn-outline-primary" %></td>
                   <td><%= button_to "Destroy", promo, method: :delete, class: "btn btn-outline-danger" %></td>
                 </tr>

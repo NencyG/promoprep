@@ -7,20 +7,14 @@ class PromosController < ApplicationController
   before_action :find_filter_option, only: %i[new edit create]
 
   def index
-    @companies = Company.left_joins(:promos).where(user_id: current_user.id).uniq
-    @selected_company = params[:company_id].present? ? Company.find_by_id(params[:company_id]) : @companies.first
-    @filter_option_id = params[:filter_option_id]
-    @promos = if params[:company_id].present? && @filter_option_id.present?
-                Promo.joins(:filter_options, :company)
-                     .group('promos.id')
-                     .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname, (companies.name) AS company_name")
-                     .where('filter_options.id IN (?)', @filter_option_id.split(','))
-              else
-                @selected_company.promos.joins(:filter_options, :company)
-                                 .group('promos.id')
-                                 .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname, (companies.name) AS company_name")
-              end
-    @filter_option = @selected_company.filter_options
+    @companies = current_user.companys
+    @selected_companys = params[:company_id].present? ? Company.find_by_id(params[:company_id]) : @companies.first
+    @filter_options = @selected_companys.filter_options
+    @filter_option_ids = params[:filter_option_id]&.split(',')
+    @promos = @selected_companys.promos.joins(:filter_options)
+                               .group('promos.id')
+                               .select("promos.*, GROUP_CONCAT(filter_options.name, ', ') AS fname")
+    @promos = @promos.where('filter_options.id IN (?)', @filter_option_ids) if params[:company_id].present? && @filter_option_ids.present?
   end
 
   def show; end
@@ -77,6 +71,6 @@ class PromosController < ApplicationController
   end
 
   def company_option
-    @company = current_user.company
+    @company = current_user.companys
   end
 end

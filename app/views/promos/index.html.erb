@@ -9,8 +9,8 @@
 </div>
 
 <div id = 'promo-filter' class= 'select'>
-  <% if @selected_company.filter_options.present? %>
-    <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_option, "id", "name", selected: @filter_option.pluck(:id)), multiple: true, class: "form-control" %>
+  <% if @selected_companys.filter_options.present? %>
+    <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_options, "id", "name", selected: @filter_options.pluck(:id)), multiple: true, class: "form-control" %>
   <% end %>
 </div>
 

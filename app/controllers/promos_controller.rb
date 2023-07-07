@@ -7,7 +7,7 @@ class PromosController < ApplicationController
   before_action :find_filter_option, only: %i[new edit create]
 
   def index
-    @companies = current_user.companys
+    @companies = current_user.companies
     @selected_companys = params[:company_id].present? ? Company.find_by_id(params[:company_id]) : @companies.first
     @filter_options = @selected_companys.filter_options
     @filter_option_ids = params[:filter_option_id]&.split(',')

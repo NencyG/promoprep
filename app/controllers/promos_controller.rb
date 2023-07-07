@@ -4,12 +4,18 @@
 class PromosController < ApplicationController
   before_action :set_promo, only: %i[show edit update destroy]
   before_action :company_option, only: %i[show new edit create]
-  before_action :find_filter_option, only: %i[new edit]
+  before_action :find_filter_option, only: %i[new edit create]
 
   def index
-    @companies = Company.where(user_id: current_user.id)
-    @selected_companies = @companies.first
-    @promos = params[:company_id].present? ? Promo.where(company_id: params[:company_id]) : @selected_companies.promos
+    @companies = current_user.companies
+    @selected_companys = Company.find_by_id(params[:company_id]) || @companies.first
+    @filter_options = @selected_companys.filter_options
+    @filter_option_ids = params[:filter_option_id]&.split(',')
+    @promos = if params[:company_id].present? && @filter_option_ids.present?
+                @selected_companys.promos.includes(:filter_options).where(filter_options: { id: [@filter_option_ids] })
+              else
+                @selected_companys.promos.includes(:filter_options)
+              end
   end
 
   def show; end
@@ -56,15 +62,16 @@ class PromosController < ApplicationController
   end
 
   def promo_params
-    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id, :promo_id, filter_option_ids: [])
+    params.require(:promo).permit(:name, :start_date, :end_date, :description, :status, :company_id, :promo_id,
+                                  filter_option_ids: [])
   end
 
   def find_filter_option
     @selected_companies = params[:company_id].present? ? Company.find_by(id: params[:company_id]) : @company.first
-    @filter_option = FilterOption.where(company_id: @selected_companies.id)
+    @filter_options  = FilterOption.where(company_id: @selected_companies.id)
   end
 
   def company_option
-    @company = current_user.company
+    @company = current_user.companies
   end
 end

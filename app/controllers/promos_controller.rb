@@ -8,11 +8,14 @@ class PromosController < ApplicationController
 
   def index
     @companies = current_user.companies
-    @selected_companys = params[:company_id].present? ? Company.find_by_id(params[:company_id]) : @companies.first
+    @selected_companys = Company.find_by_id(params[:company_id]) || @companies.first
     @filter_options = @selected_companys.filter_options
     @filter_option_ids = params[:filter_option_id]&.split(',')
-    @promos = @selected_companys.promos.includes(:filter_options)
-    @promos = @promos.where(filter_options: { id: [@filter_option_ids] }) if params[:company_id].present? && @filter_option_ids.present?
+    @promos = if params[:company_id].present? && @filter_option_ids.present?
+                @selected_companys.promos.includes(:filter_options).where(filter_options: { id: [@filter_option_ids] })
+              else
+                @selected_companys.promos.includes(:filter_options)
+              end
   end
 
   def show; end
@@ -59,7 +62,7 @@ class PromosController < ApplicationController
   end
 
   def promo_params
-    params.require(:promo).permit(:name, :start_date, :end_date, :description, :company_id, :promo_id,
+    params.require(:promo).permit(:name, :start_date, :end_date, :description, :status, :company_id, :promo_id,
                                   filter_option_ids: [])
   end
 
@@ -69,6 +72,6 @@ class PromosController < ApplicationController
   end
 
   def company_option
-    @company = current_user.companys
+    @company = current_user.companies
   end
 end

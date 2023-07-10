@@ -30,7 +30,6 @@
                     <%= filter_name %>
                   </td>
                   <td><%= link_to "Edit", edit_promo_path(promo), class: "btn btn-outline-primary" %></td>
-                  <%#= button_to 'Destroy', promo, method: :delete, form: { data: { turbo: true, turbo_confirm: 'Are you sure?' } }, class: "btn btn-outline-danger" %>
                   <td><%= button_to "Destroy", promo, method: :delete, form: { data: { turbo: true, turbo_confirm: 'Are you sure?' } }, class: "btn btn-outline-danger" %></td>
                 </tr>
               <%end%>

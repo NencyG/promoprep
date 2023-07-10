@@ -4,12 +4,6 @@ document.addEventListener("turbo:load", function () {
     let frame = document.querySelector("turbo-frame#promo-list");
     frame.src = '/promos?company_id='+ companyid +'&format=turbo_stream'
   });
-
-  $("#promo_company_id").on("change", function () {
-    var companyid = $(this).val();
-    let frame = document.querySelector("turbo-frame#filter_promo_list");
-    frame.src = '/promos?company_id='+ companyid +'&format=turbo_stream'
-  });
   
   $('body').on("change",'#promo', '#promo_company_id', function () {
     var filte_option = $('#promo').val();

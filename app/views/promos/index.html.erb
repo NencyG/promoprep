@@ -14,6 +14,13 @@
   </div>
 <% end %>
 
+<div class="import-data">
+  <%= form_with url: import_promos_path, method: :post do |form| %>
+    <%= form.file_field :file, accept: ".csv" %>
+    <%= form.button "Import Details" %>
+  <% end %>
+</div>
+
 <div id = 'promo-filter' class= 'select'>
   <% if @selected_companys.filter_options.present? %>
     <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_options, "id", "name", selected: @filter_options.pluck(:id)), multiple: true, class: "form-control" %>

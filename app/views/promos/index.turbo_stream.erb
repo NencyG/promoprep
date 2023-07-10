@@ -2,6 +2,12 @@
   <%= render 'promos/filtered_table', promos: @promos %>
 <% end %>
 
+<%= turbo_stream.update("filter_promo_list") do %>
+  <div class="export-details">
+    <%= link_to "Export Details", export_path(company_id: @selected_companys.id,format: 'csv'), class: "btn btn-danger" %>
+  </div>
+<% end %>
+
 <% unless @filter_option_ids.present? %>
   <%= turbo_stream.update("promo-filter") do %>
     <% if @selected_companys.filter_options.present? %>

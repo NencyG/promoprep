@@ -23,6 +23,13 @@ class PromosController < ApplicationController
     send_data @promos.to_csv, filename: "promos-#{Date.today}.csv"
   end
 
+  def import
+    file = params[:file]
+    return redirect_to promos_path, notice: 'Only CSV please' unless file.content_type == 'text/csv'
+    CsvImportUsersService.new.call(file)
+    redirect_to promos_path, notice: 'Users imported!'
+  end
+
   def show; end
 
   def new

@@ -18,6 +18,15 @@ class PromosController < ApplicationController
               end
   end
 
+  def export
+    @promos = Promo.where(company_id: params[:company_id])
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+      format.csv { send_data @promos.to_csv, filename: "promos-#{Date.today}.csv" }
+    end
+  end
+
   def show; end
 
   def new

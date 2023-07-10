@@ -28,8 +28,10 @@ class PromosController < ApplicationController
 
   def create
     @promo = Promo.new(promo_params)
+
     respond_to do |format|
       if @promo.save
+        PromoEmailJob.perform_later(@promo)
         format.html { redirect_to promo_url(@promo), notice: 'Promo was successfully created.' }
       else
         format.html { render :new, status: :unprocessable_entity }

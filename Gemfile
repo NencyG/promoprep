@@ -88,3 +88,9 @@ gem 'sass-rails', '~> 5.0'
 
 # For Nested form
 gem 'cocoon'
+
+# Sidekiq
+gem 'sidekiq', '~> 7.0.0'
+
+# Letter opener
+gem 'letter_opener', group: :development

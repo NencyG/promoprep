@@ -1,0 +1,20 @@
+<% if @error_messages.present? %>
+  <table style="width:100%" border='1'>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Error</th>
+      </tr>  
+    </thead>
+    <tbody>
+      <% @error_messages.each do |id, error|%>
+        <tr>
+          <th><%= p "#{id}" %></th>
+          <th><%= p "#{error.join(', ')}" %></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <%= p "No" %>
+<% end %>

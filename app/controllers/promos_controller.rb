@@ -26,7 +26,7 @@ class PromosController < ApplicationController
   def import
     file = params[:file]
     return redirect_to promos_path, notice: 'Only CSV please' unless file.content_type == 'text/csv'
-    CsvImportUsersService.new.call(file)
+    CsvImportPromosService.new.call(file)
     redirect_to promos_path, notice: 'Users imported!'
   end
 

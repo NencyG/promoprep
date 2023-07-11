@@ -17,7 +17,7 @@
 <div class="import-data">
   <%= form_with url: import_promos_path, method: :post do |form| %>
     <%= form.file_field :file, accept: ".csv" %>
-    <%= form.button "Import Details" %>
+    <%= form.button "Import Details", class: 'btn btn-success' %>
   <% end %>
 </div>
 

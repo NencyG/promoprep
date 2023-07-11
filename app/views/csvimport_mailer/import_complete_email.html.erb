@@ -1,4 +1,5 @@
 <% if @error_messages.present? %>
+  <P> Promo Data are imported but some promo has issue please check below </P><br>
   <table style="width:100%" border='1'>
     <thead>
       <tr>
@@ -16,5 +17,5 @@
     </tbody>
   </table>
 <% else %>
-  <%= p "No" %>
+  <P> Promo Data are imported successfully </P><br>
 <% end %>

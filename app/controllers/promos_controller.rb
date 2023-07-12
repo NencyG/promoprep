@@ -26,7 +26,12 @@ class PromosController < ApplicationController
   def import
     file = params[:file]
     return redirect_to promos_path, notice: 'Only CSV please' unless file.content_type == 'text/csv'
-    CsvImportPromosService.new.call(file)
+
+    file_path = Rails.root.join('tmp', file.original_filename)
+    File.open(file_path, 'wb') do |f|
+      f.write(file.read)
+    end
+    ImportCsvJob.perform_later(file_path.to_s)
     redirect_to promos_path, notice: 'Users imported!'
   end
 
@@ -82,7 +87,7 @@ class PromosController < ApplicationController
 
   def find_filter_option
     @selected_companies = params[:company_id].present? ? Company.find_by(id: params[:company_id]) : @company.first
-    @filter_options  = FilterOption.where(company_id: @selected_companies.id)
+    @filter_options = FilterOption.where(company_id: @selected_companies.id)
   end
 
   def company_option

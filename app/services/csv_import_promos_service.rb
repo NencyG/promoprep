@@ -5,7 +5,7 @@ class CsvImportPromosService
     @error_messages = Hash.new { |hash, key| hash[key] = [] }
 
     file = File.open(file)
-    csv = CSV.parse(file, headers: true, col_sep: ',')
+    csv = CSV.parse(file, headers: true, col_sep: ';')
 
     csv.each do |row|
       promo_hash = {}
@@ -18,7 +18,11 @@ class CsvImportPromosService
       @promo = Promo.new(promo_hash)
 
       if @promo.save
-        @message = 'Promo was successfully created.'
+        filter_option_ids = row['filter_options_id'].split(',')
+        filter_option_ids.each do |filter_option_id|
+          promo_filter_option = PromoFilterOption.new(promo_id: @promo.id, filter_option_id: filter_option_id)
+          promo_filter_option.save
+        end
       else
         @promo.errors.each do |error|
           @error_messages[row['id'].to_i] << error.full_message

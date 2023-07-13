@@ -18,14 +18,11 @@ class CsvImportPromosService
       promo_hash[:company_id] = company_id.id if company_id.present?
       @promo = Promo.new(promo_hash)
 
+      filter_option_name = row['filter_options_name'].split(',')
+      filter_options = FilterOption.where(name: filter_option_name).ids
+      @promo.filter_option_ids = filter_options
       if @promo.valid?
         @promo.save
-        filter_option_name = row['filter_options_name'].split(',')
-        filter_options = FilterOption.where(name: filter_option_name).ids
-        filter_options.each do |filter_option_id|
-          promo_filter_option = PromoFilterOption.new(promo_id: @promo.id, filter_option_id: filter_option_id)
-          promo_filter_option.save
-        end
       else
         @promo.errors.each do |error|
           @error_messages[row['id'].to_i] << error.full_message

@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   resources :promos do
     collection do
       post :import
+      get 'export/:company_id', to: 'promos#export', as: 'export'
     end
   end
-  get 'export/:company_id', to: 'promos#export', as: 'export'
   resources :companies
   root 'home#index'
   devise_for :users

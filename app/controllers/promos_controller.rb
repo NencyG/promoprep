@@ -25,7 +25,7 @@ class PromosController < ApplicationController
 
   def import
     file = params[:file]
-    return redirect_to promos_path, notice: 'Only CSV please' unless file.content_type == 'text/csv'
+    return redirect_to promos_path, notice: 'Only CSV please' unless file&.content_type == 'text/csv'
 
     file_path = Rails.root.join('tmp', file.original_filename)
     File.open(file_path, 'wb') do |f|

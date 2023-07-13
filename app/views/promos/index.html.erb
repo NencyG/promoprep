@@ -10,7 +10,7 @@
 
 <%= turbo_frame_tag "filter_promo_list" do %>
   <div class="export-details">
-    <%= link_to "Export Details", export_path(company_id: @selected_companys.id,format: 'csv'), class: "btn btn-danger" %>
+    <%= link_to "Export Details", export_promos_path(company_id: @selected_companys.id,format: 'csv'), class: "btn btn-danger" %>
   </div>
 <% end %>
 

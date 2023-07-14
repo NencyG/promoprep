@@ -18,8 +18,8 @@ class CsvImportPromosService
       promo_hash[:company_id] = company_id.id if company_id.present?
       @promo = Promo.new(promo_hash)
 
-      filter_option_name = row['filter_options_name'].split(',')
-      filter_options = FilterOption.where(name: filter_option_name).ids
+      filter_options_name = row['filter_options_name'].split(',')
+      filter_options = FilterOption.where(name: filter_options_name).ids
       @promo.filter_option_ids = filter_options
       if @promo.valid?
         @promo.save

@@ -1,0 +1,21 @@
+<% if @error_messages.present? %>
+  <P> Promo Data are imported but some promo has issue please check below </P><br>
+  <table style="width:100%" border='1'>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Error</th>
+      </tr>  
+    </thead>
+    <tbody>
+      <% @error_messages.each do |id, error|%>
+        <tr>
+          <th><%= p "#{id}" %></th>
+          <th><%= p "#{error.join(', ')}" %></th>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <P> Promo Data are imported successfully </P><br>
+<% end %>

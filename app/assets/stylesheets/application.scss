@@ -138,47 +138,63 @@
     font-family: Optima;
   }
  
- .add_button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 10px;
-  padding-bottom: 20px;
- }
+  .add_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
 
- .form-control {
-  display: block;
-  width: 23%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border-radius: 0.375rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
+  .form-control {
+    display: block;
+    width: 23%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
 
-.company_tittle {
-  font-family: Optima;
-}
+  .company_tittle {
+    font-family: Optima;
+  }
 
-.back-button {
-  padding-bottom: 20px;
-}
+  .back-button {
+    padding-bottom: 20px;
+  }
 
-.available {
-  padding-left: 115px;
-  font-family: Optima;
-}
+  .available {
+    padding-left: 115px;
+    font-family: Optima;
+  }
 
-.welcome {
-  font-family: Optima;
-  text-align: center;
-  font-size: 50px;
-}
+  .welcome {
+    font-family: Optima;
+    text-align: center;
+    font-size: 50px;
+  }
+
+  .export-details {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }
+
+  .import-data {
+    display: flex;
+    justify-content: right;
+    align-items: right;
+    padding-top: 10px;
+    padding-bottom: 20px;
+  }

@@ -8,6 +8,19 @@
   <span class='name-tag'>Select company :- </span><%= collection_select :promo, :company_id, @companies, :id, :name, selected: @selected_companies %>
 </div>
 
+<%= turbo_frame_tag "filter_promo_list" do %>
+  <div class="export-details">
+    <%= link_to "Export Details", export_promos_path(company_id: @selected_companys.id,format: 'csv'), class: "btn btn-danger" %>
+  </div>
+<% end %>
+
+<div class="import-data">
+  <%= form_with url: import_promos_path, method: :post do |form| %>
+    <%= form.file_field :file, accept: ".csv" %>
+    <%= form.button "Import Details", class: 'btn btn-success' %>
+  <% end %>
+</div>
+
 <div id = 'promo-filter' class= 'select'>
   <% if @selected_companys.filter_options.present? %>
     <span class='name-tag'>Select Filter :- </span><%= select_tag "promo", options_from_collection_for_select(@filter_options, "id", "name", selected: @filter_options.pluck(:id)), multiple: true, class: "form-control" %>

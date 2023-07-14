@@ -21,8 +21,8 @@
                 <tr>  
                   <th scope="row" class="scope" ><%= index %></th>
                   <td><%= promo.name %></td>
-                  <td><%= promo.start_date %></td>
-                  <td><%= promo.end_date %></td>
+                  <td><%= format_date(promo.start_date) %></td>
+                  <td><%= format_date(promo.end_date) %></td>
                   <td><%= promo.description %></td>
                   <td><%= @selected_companys.name %></td>
                   <td>
@@ -30,7 +30,7 @@
                     <%= filter_name %>
                   </td>
                   <td><%= link_to "Edit", edit_promo_path(promo), class: "btn btn-outline-primary" %></td>
-                  <td><%= button_to "Destroy", promo, method: :delete, class: "btn btn-outline-danger" %></td>
+                  <td><%= button_to "Destroy", promo, method: :delete, form: { data: { turbo: true, turbo_confirm: 'Are you sure?' } }, class: "btn btn-outline-danger" %></td>
                 </tr>
               <%end%>
             </tbody>

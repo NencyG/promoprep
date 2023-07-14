@@ -18,6 +18,23 @@ class PromosController < ApplicationController
               end
   end
 
+  def export
+    @promos = Promo.where(company_id: params[:company_id])
+    send_data @promos.to_csv, filename: "promos-#{Date.today}.csv"
+  end
+
+  def import
+    file = params[:file]
+    return redirect_to promos_path, notice: 'Only CSV please' unless file&.content_type == 'text/csv'
+
+    file_path = Rails.root.join('tmp', file.original_filename)
+    File.open(file_path, 'wb') do |f|
+      f.write(file.read)
+    end
+    ImportCsvJob.perform_later(file_path.to_s)
+    redirect_to promos_path, notice: 'Promos was successfully imported!'
+  end
+
   def show; end
 
   def new
@@ -70,7 +87,7 @@ class PromosController < ApplicationController
 
   def find_filter_option
     @selected_companies = params[:company_id].present? ? Company.find_by(id: params[:company_id]) : @company.first
-    @filter_options  = FilterOption.where(company_id: @selected_companies.id)
+    @filter_options = FilterOption.where(company_id: @selected_companies.id)
   end
 
   def company_option

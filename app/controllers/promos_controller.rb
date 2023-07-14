@@ -32,7 +32,7 @@ class PromosController < ApplicationController
       f.write(file.read)
     end
     ImportCsvJob.perform_later(file_path.to_s)
-    redirect_to promos_path, notice: 'Users imported!'
+    redirect_to promos_path, notice: 'Promos was successfully imported!'
   end
 
   def show; end

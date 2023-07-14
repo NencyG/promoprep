@@ -19,8 +19,8 @@ class CsvImportPromosService
       @promo = Promo.new(promo_hash)
 
       filter_name = row['filter_options_name'].split(',')
-      filter_options_id = FilterOption.where(name: filter_name).ids
-      @promo.filter_option_ids = filter_options_id
+      filter_option_ids = FilterOption.where(name: filter_name).ids
+      @promo.filter_option_ids = filter_option_ids
       if @promo.valid?
         @promo.save
       else

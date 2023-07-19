@@ -10,4 +10,12 @@ Rails.application.routes.draw do
   devise_for :users
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+
+  defaults format: :json do
+    namespace :api  do
+      namespace :v1 do
+        resources :companies, only: %i[index show]
+      end
+    end
+  end
 end

@@ -1,5 +1,9 @@
 module Api::V1
   class ApiBaseController < ApplicationController
+    def not_found(message)
+      render json: { message: message }, status: :bad_request
+    end
+
     def authorize_request
       header = request.headers['Authorization']
       header = header.split(' ').last if header
@@ -13,12 +17,12 @@ module Api::V1
       end
     end
 
-    def render_api_response(status, data)
-      render json: { status: status, message: 'Success', data: data }, status: status
+    def render_api_response(status, message, data)
+      render json: { status: status, message: message, data: data }, status: status
     end
 
-    def render_api_errorsmessage
-      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+    def render_api_errorsmessage(data)
+      render json: { errors: data.errors.full_messages }, status: :unprocessable_entity
     end
   end
 end

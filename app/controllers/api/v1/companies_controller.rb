@@ -4,33 +4,33 @@ module Api::V1
 
     def index
       @companies = Company.all
-      render json: { status: 200, message: 'Fetched all the companies successfully', data: @companies }, status: :ok
+      render_api_response(200, 'Fetched all the companies successfully', @companies)
     end
 
     def create
       @company = Company.new(company_params.merge!(user_id: 1))
       if @company.save
-        render json: { status: 201, message: 'Company was created successfully!', data: @company }, status: :created
+        render_api_response(201, 'Company was created successfully!', @company)
       else
-        render json: @company.errors, status: :unprocessable_entity
+        render_api_errorsmessage(@company)
       end
     end
 
     def show
       @companies = Company.find_by(id: params[:id])
       if @companies
-        render json: { status: 200, message: 'Success', data: @companies }, status: :ok
+        render_api_response(200, 'Success', @companies)
       else
-        render json: { message: 'Company could not be found' }, status: :bad_request
+        not_found('Company could not be found')
       end
     end
 
     def update
       @company = Company.find_by(id: params[:id])
       if @company.update!(company_params)
-        render json: { message: 'Company was updated sucessfully', data: @company }, status: :ok
+        render_api_response(200, 'Company was updated sucessfully', @company)
       else
-        render json: { message: 'Company cannot be update' }, status: :unprocessable_entity
+        render_api_errorsmessage(@company)
       end
     end
 
@@ -39,9 +39,9 @@ module Api::V1
 
       if @company.present?
         @company.destroy
-        render json: { message: 'Company was delete successfully' }, status: :ok
+        render_api_response(200, 'Company was delete successfully', @company)
       else
-        render json: { message: 'Company does not exist' }, status: :bad_request
+        not_found('Company does not exist')
       end
     end
 

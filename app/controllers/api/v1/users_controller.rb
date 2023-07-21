@@ -6,30 +6,31 @@ module Api::V1
 
     def index
       @users = User.all
-      render_api_response(200, @users)
+      render_api_response(200, 'Fetched all the User successfully', @users)
     end
 
     def show
-      render_api_response(200, @user)
+      render_api_response(200, 'Success', @user)
     end
 
     def create
       @user = User.new(user_params)
       if @user.save
-        render_api_response(201, @user)
+        render_api_response(201, 'User was created successfully!', @user)
       else
-        render_api_errorsmessage
+        render_api_errorsmessage(@user)
       end
     end
 
     def update
       return if @user.update(user_params)
 
-      render_api_errorsmessage
+      render_api_errorsmessage(@user)
     end
 
     def destroy
       @user.destroy
+      render_api_response(200, 'User was delete successfully', @company)
     end
 
     private

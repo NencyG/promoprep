@@ -1,61 +1,49 @@
-class Api::V1::UsersController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index]
+module Api::V1
+  class UsersController < ApiBaseController
+    skip_before_action :verify_authenticity_token
+    before_action :authorize_request, except: :create
+    before_action :find_user, except: %i[create index]
 
-  def index
-    @users = User.all
-    render json: @users, status: :ok
-  end
-
-  def show
-    render json: @user, status: :ok
-  end
-
-  def create
-    @user = User.new(user_params)
-    if @user.save
-      render json: @user, status: :created
-    else
-      render json: { errors: @user.errors.full_messages },
-             status: :unprocessable_entity
+    def index
+      @users = User.all
+      render json: @users, status: :ok
     end
-  end
 
-  def update
-    return if @user.update(user_params)
+    def show
+      render json: @user, status: :ok
+    end
 
-    render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
-  end
+    def create
+      @user = User.new(user_params)
+      if @user.save
+        render json: @user, status: :created
+      else
+        render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
 
-  def destroy
-    @user.destroy
-  end
+    def update
+      return if @user.update(user_params)
 
-  private
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+    end
 
-  def find_user
-    @user = User.find_by!(id: params[:id])
+    def destroy
+      @user.destroy
+    end
+
+    private
+
+    def find_user
+      @user = User.find_by!(id: params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { errors: 'User not found' }, status: :not_found
-  end
+    end
 
-  def user_params
-    params.permit(
-      :first_name, :last_name, :age, :dob, :email, :password, :password_confirmation
-    )
-  end
-
-  def authorize_request
-    header = request.headers['Authorization']
-    header = header.split(' ').last if header
-    begin
-      @decoded = JWT.decode(header)
-      @current_user = User.find(@decoded[:user_id])
-    rescue ActiveRecord::RecordNotFound => e
-      render json: { errors: e.message }, status: :unauthorized
-    rescue JWT::DecodeError => e
-      render json: { errors: e.message }, status: :unauthorized
+    def user_params
+      params.permit(
+        :first_name, :last_name, :age, :dob, :email, :password, :password_confirmation
+      )
     end
   end
 end

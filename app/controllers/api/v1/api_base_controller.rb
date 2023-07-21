@@ -16,5 +16,13 @@ module Api::V1
         render json: { errors: e.message }, status: :unauthorized
       end
     end
+
+    def render_api_response(status, data)
+      render json: { status: status, message: 'Success', data: data }, status: status
+    end
+
+    def render_api_errorsmessage
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 end

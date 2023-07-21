@@ -6,26 +6,26 @@ module Api::V1
 
     def index
       @users = User.all
-      render json: @users, status: :ok
+      render_api_response(200, @users)
     end
 
     def show
-      render json: @user, status: :ok
+      render_api_response(200, @user)
     end
 
     def create
       @user = User.new(user_params)
       if @user.save
-        render json: @user, status: :created
+        render_api_response(201, @user)
       else
-        render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+        render_api_errorsmessage
       end
     end
 
     def update
       return if @user.update(user_params)
 
-      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+      render_api_errorsmessage
     end
 
     def destroy

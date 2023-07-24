@@ -1,7 +1,7 @@
 module Api::V1
   class UsersController < ApiBaseController
     skip_before_action :verify_authenticity_token
-    skip_before_action :authorize_request, except: :create
+    skip_before_action :authorize_request, only: :create
     before_action :find_user, except: %i[create index]
 
     def index

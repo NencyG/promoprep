@@ -1,7 +1,7 @@
 module Api::V1
   class AuthenticationController < ApiBaseController
     skip_before_action :verify_authenticity_token
-    skip_before_action :authorize_request, except: :login
+    skip_before_action :authorize_request, only: :login
 
     def login
       @user = User.find_by_email(params[:email])

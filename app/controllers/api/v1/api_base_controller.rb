@@ -7,32 +7,16 @@ module Api::V1
     end
 
     def authorize_request
-      return if current_user
-
-      render json: { message: 'Please Login first' }
-    end
-
-    def decoded_token
       header = request.headers['Authorization']
       header = header.split(' ').last if header
-      return unless header
-
       begin
-        @decoded_token ||= JsonWebToken.decode(header)
-      rescue Error => e
-        render json: { errors: [e.message] }, status: :unauthorized
+        @decoded = JsonWebTokenService.decode(header)
+        @current_user = User.find(@decoded[:user_id])
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { errors: e.message }, status: :unauthorized
+      rescue JWT::DecodeError => e
+        render json: { errors: e.message }, status: :unauthorized
       end
-    end
-
-    def current_user
-      @current_user = nil
-      return unless decoded_token
-
-      data = decoded_token
-      @user = User.find_by(id: data[:user_id])
-      return unless @user
-
-      @current_user ||= @user
     end
 
     def render_api_response(status, message, data)

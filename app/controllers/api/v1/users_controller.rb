@@ -14,9 +14,18 @@ module Api::V1
     end
 
     def create
-      @user = User.new(user_params)
+      @user = User.new(user_params = {
+                         email: params[:email],
+                         password: params[:password],
+                         first_name: params[:first_name],
+                         last_name: params[:last_name],
+                         age: params[:age],
+                         dob: params[:dob]
+                       })
       if @user.save
-        render_api_response(201, 'User was created successfully!', @user)
+        token = JWT.encode({ user_id: @user.id }, Rails.application.secrets.secret_key_base, 'HS256')
+        render json: { token:, first_name: @user.first_name, message: 'User was created successfully!',
+                       data: @user }, status: :ok
       else
         render_api_errorsmessage(@user)
       end

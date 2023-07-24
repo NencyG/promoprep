@@ -3,8 +3,13 @@ module Api::V1
     skip_before_action :verify_authenticity_token
 
     def index
-      @companies = Company.all
-      render_api_response(200, 'Fetched all the companies successfully', @companies)
+      @companies = @current_user.companies
+      if @companies.present?
+        render_api_response(200, 'Fetched all the companies successfully',
+                            @companies)
+      else
+        not_found('Company is not Available')
+      end
     end
 
     def create

@@ -1,9 +1,9 @@
 module Api::V1
   class CompaniesController < ApiBaseController
     skip_before_action :verify_authenticity_token
+    before_action :current_user_company, only: %i[index show update destroy]
 
     def index
-      @companies = @current_user.companies
       if @companies.present?
         render_api_response(200, 'Fetched all the companies successfully',
                             @companies)
@@ -22,16 +22,16 @@ module Api::V1
     end
 
     def show
-      @companies = Company.find_by(id: params[:id])
-      if @companies
-        render_api_response(200, 'Success', @companies)
+      @company = @companies.find_by(id: params[:id])
+      if @company
+        render_api_response(200, 'Success', @company)
       else
         not_found('Company could not be found')
       end
     end
 
     def update
-      @company = Company.find_by(id: params[:id])
+      @company = @companies.find_by(id: params[:id])
       if @company.update!(company_params)
         render_api_response(200, 'Company was updated sucessfully', @company)
       else
@@ -40,7 +40,7 @@ module Api::V1
     end
 
     def destroy
-      @company = Company.find_by(id: params[:id])
+      @company = @companies.find_by(id: params[:id])
 
       if @company.present?
         @company.destroy
@@ -54,6 +54,10 @@ module Api::V1
 
     def company_params
       params.require(:company).permit(:name, :email)
+    end
+
+    def current_user_company
+      @companies = @current_user.companies
     end
   end
 end

@@ -6,7 +6,7 @@ module Api::V1
 
     def index
       @users = User.all
-      render_api_response(200, 'Fetched all the User successfully', @users)
+      response_200( 'Fetched all the User successfully', @users)
     end
 
     def show

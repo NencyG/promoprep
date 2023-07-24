@@ -1,11 +1,8 @@
 module Api::V1
   class ApiBaseController < ApplicationController
+    include JsonApiResponse
     before_action :authorize_request
     before_action :current_user
-    def not_found(message)
-      render json: { message: }, status: :bad_request
-    end
-
     def authorize_request
       header = request.headers['Authorization']
       header = header.split(' ').last if header
@@ -17,14 +14,6 @@ module Api::V1
       rescue JWT::DecodeError => e
         render json: { errors: e.message }, status: :unauthorized
       end
-    end
-
-    def render_api_response(status, message, data)
-      render json: { status:, message:, data: }, status:
-    end
-
-    def render_api_errorsmessage(data)
-      render json: { errors: data.errors.full_messages }, status: :unprocessable_entity
     end
   end
 end

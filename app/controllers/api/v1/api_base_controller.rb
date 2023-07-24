@@ -1,13 +1,12 @@
 module Api::V1
   class ApiBaseController < ApplicationController
-    before_action :current_user
     before_action :authorize_request
     def not_found(message)
       render json: { message: }, status: :bad_request
     end
 
     def authorize_request
-      return unless current_user
+      return if current_user
 
       render json: { message: 'Please Login first' }
     end

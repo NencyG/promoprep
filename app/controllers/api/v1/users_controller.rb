@@ -6,11 +6,11 @@ module Api::V1
 
     def index
       @users = User.all
-      response_200( 'Fetched all the User successfully', @users)
+      @users.present? ? response_200('Fetched all the User successfully', @users) : response_400('User is not Available')
     end
 
     def show
-      render_api_response(200, 'Success', @user)
+      response_200('Success', @user)
     end
 
     def create
@@ -27,19 +27,22 @@ module Api::V1
         render json: { token:, first_name: @user.first_name, message: 'User was created successfully!',
                        data: @user }, status: :ok
       else
-        render_api_errorsmessage(@user)
+        response_422(@user, 'Failed to save user. Please try again later')
       end
     end
 
     def update
-      return if @user.update(user_params)
+      return unless @user.present?
 
-      render_api_errorsmessage(@user)
+      @user.update(user_params)
+      response_200('User was updated sucessfully', @user)
     end
 
     def destroy
+      return unless @user.present?
+
       @user.destroy
-      render_api_response(200, 'User was delete successfully', @company)
+      response_200('User was delete successfully')
     end
 
     private
@@ -47,7 +50,7 @@ module Api::V1
     def find_user
       @user = User.find_by!(id: params[:id])
     rescue ActiveRecord::RecordNotFound
-      render json: { errors: 'User not found' }, status: :not_found
+      response_400('User not found')
     end
 
     def user_params

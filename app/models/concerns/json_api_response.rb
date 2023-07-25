@@ -2,18 +2,18 @@ module JsonApiResponse
   extend ActiveSupport::Concern
 
   def response_200(message, data)
-    render json: { status: 200, error: [], message: message, data: data}, status: :ok
+    render json: { status: 200, error: [], message:, data: }, status: :ok
   end
 
-  def render_api_response(status, message, data)
-    render json: { status:, message:, data: }, status:
+  def response_400(message, data = {})
+    render json: { status: 400, error: [], message:, data: }, status: :bad_request
   end
 
-  def render_api_errorsmessage(data)
-    render json: { errors: data.errors.full_messages }, status: :unprocessable_entity
+  def response_201(message, data)
+    render json: { status: 201, error: [], message:, data: }, status: :create
   end
 
-  def not_found(message)
-    render json: { message: }, status: :bad_request
+  def response_422(data, message)
+    render json: { status: 422, errors: data.errors.full_messages, message:, data: {} }, status: :unprocessable_entity
   end
 end

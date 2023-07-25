@@ -6,7 +6,7 @@ module Api::V1
 
     def index
       @users = User.all
-      @users.present? ? response_200('Fetched all the User successfully', @users) : response_400('User is not Available')
+      @users.present? ? response_200('Fetched all the User Successfully', @users) : response_400('User is not Available')
     end
 
     def show
@@ -22,27 +22,34 @@ module Api::V1
                          age: params[:age],
                          dob: params[:dob]
                        })
-      if @user.save
+      begin
+        @user.save!
         token = JWT.encode({ user_id: @user.id }, Rails.application.secrets.secret_key_base, 'HS256')
         render json: { token:, first_name: @user.first_name, message: 'User was created successfully!',
                        data: @user }, status: :ok
-      else
-        response_422(@user, 'Failed to save user. Please try again later')
+      rescue StandardError => e
+        response_422(e.message, 'Failed to save user. Please try again Later')
       end
     end
 
     def update
-      return unless @user.present?
-
-      @user.update(user_params)
-      response_200('User was updated sucessfully', @user)
+      if @user.present?
+        begin
+          @user.update!(user_params)
+          response_200('User was Updated Sucessfully', @user)
+        rescue StandardError => e
+          response_422(e.message, 'Failed to Update the User')
+        end
+      else
+        response_400('User not Found')
+      end
     end
 
     def destroy
       return unless @user.present?
 
       @user.destroy
-      response_200('User was delete successfully')
+      response_200('User was Delete Successfully')
     end
 
     private
@@ -50,7 +57,7 @@ module Api::V1
     def find_user
       @user = User.find_by!(id: params[:id])
     rescue ActiveRecord::RecordNotFound
-      response_400('User not found')
+      response_400('User not Found')
     end
 
     def user_params

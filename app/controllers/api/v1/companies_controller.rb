@@ -2,11 +2,11 @@ module Api::V1
   class CompaniesController < ApiBaseController
     skip_before_action :verify_authenticity_token
     before_action :current_user_company, only: %i[index show update destroy]
-    before_action :find_cpmpany, only: %i[show update destroy]
+    before_action :find_company, only: %i[show update destroy]
 
     def index
       if @companies.present?
-        response_200('Fetched all the companies successfully',
+        response_200('Fetched all the Companies Successfully',
                             @companies)
       else
         response_400('Company is not Available')
@@ -15,10 +15,11 @@ module Api::V1
 
     def create
       @company = Company.new(company_params.merge!(user_id: @current_user.id))
-      if @company.save
-        response_201('Company was created successfully!', @company)
-      else
-        response_422(@company, 'Failed to save company. Please try again later')
+      begin
+        @company.save!
+        response_200('Fetched all the Companies Successfully', @company)
+      rescue StandardError => e
+        response_422(e.message, 'Failed to save Company. Please try again Later')
       end
     end
 
@@ -26,25 +27,29 @@ module Api::V1
       if @company
         response_200('Success', @company)
       else
-        response_400('Company could not be found')
+        response_400('Company could not be Found')
       end
     end
 
     def update
       if @company.present?
-        @company.update!(company_params)
-        response_200('Company was updated sucessfully', @company)
+        begin
+          @company.update!(company_params)
+          response_200('Company was updated Sucessfully', @company)
+        rescue StandardError => e
+          response_422(e.message, 'Failed to update the Company')
+        end
       else
-        response_400('You can not update this company')
+        response_400('You can not Update this Company')
       end
     end
 
     def destroy
       if @company.present?
         @company.destroy
-        response_200('Company was delete successfully', @company)
+        response_200('Company was Delete Successfully', @company)
       else
-        response_400('Company does not exist')
+        response_400('Company does not Exist')
       end
     end
 
@@ -58,7 +63,7 @@ module Api::V1
       @companies = @current_user.companies
     end
 
-    def find_cpmpany
+    def find_company
       @company = @companies.find_by(id: params[:id])
     end
   end

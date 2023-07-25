@@ -7,9 +7,9 @@ module Api::V1
       @user = User.find_by_email(params[:email])
       if @user&.valid_password?(params[:password])
         token = JWT.encode({ user_id: @user.id }, Rails.application.secrets.secret_key_base, 'HS256')
-        render json: { token:, first_name: @user.first_name }, status: :ok
+        login_response(token, 'Login Sucessfully', @user)
       else
-        render json: { error: 'Invalid email or password' }, status: :unauthorized
+        response_401('Invalid Email or Password')
       end
     end
 

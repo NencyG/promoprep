@@ -10,9 +10,9 @@ module Api::V1
         @decoded = JsonWebTokenService.decode(header)
         @current_user = User.find(@decoded[:user_id])
       rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e.message }, status: :unauthorized
+        response_401(e.message)
       rescue JWT::DecodeError => e
-        render json: { errors: e.message }, status: :unauthorized
+        response_401(e.message)
       end
     end
   end

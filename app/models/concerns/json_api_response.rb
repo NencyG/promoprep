@@ -13,7 +13,15 @@ module JsonApiResponse
     render json: { status: 201, error: [], message:, data: }, status: :create
   end
 
-  def response_422(data, message)
-    render json: { status: 422, errors: data.errors.full_messages, message:, data: {} }, status: :unprocessable_entity
+  def response_422(errormessages, message)
+    render json: { status: 422, errors: errormessages, message:, data: {} }, status: :unprocessable_entity
+  end
+
+  def response_401(errormessages)
+    render json: { status: 401, errors: errormessages, message: [], data: {} }, status: :unauthorized
+  end
+
+  def login_response(token, message, data)
+    render json: { status: 200, token: token, message: message, error: [], data: data }, status: :ok
   end
 end

@@ -25,7 +25,7 @@ gem 'turbo-rails'
 gem 'stimulus-rails'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem 'jbuilder'
+gem 'jbuilder', '~> 2.5'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -94,3 +94,11 @@ gem 'sidekiq', '~> 7.0.0'
 
 # Letter opener
 gem 'letter_opener', group: :development
+
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
+
+# Use Json Web Token (JWT) for token based authentication
+gem 'jwt'
+
+# Use ActiveModel has_secure_password
+gem 'bcrypt', '~> 3.1.7'

@@ -19,7 +19,7 @@ module Api::V1
         @company.save!
         response_200('Fetched all the Companies Successfully', @company)
       rescue StandardError => e
-        response_422(e.message, 'Failed to save Company. Please try again Later')
+        response_422(e.message, 'Failed to save the Company.')
       end
     end
 
@@ -37,7 +37,7 @@ module Api::V1
           @company.update!(company_params)
           response_200('Company was updated Sucessfully', @company)
         rescue StandardError => e
-          response_422(e.message, 'Failed to update the Company')
+          response_422(e.message, 'Failed to update the Company.')
         end
       else
         response_400('You can not Update this Company')

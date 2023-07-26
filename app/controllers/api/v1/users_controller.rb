@@ -55,7 +55,7 @@ module Api::V1
     private
 
     def find_user
-      @user = User.find_by!(id: params[:id])
+      @user = User.find(id: params[:id])
     rescue ActiveRecord::RecordNotFound
       response_400('User not Found')
     end

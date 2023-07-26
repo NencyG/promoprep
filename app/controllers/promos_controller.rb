@@ -8,7 +8,9 @@ class PromosController < ApplicationController
 
   def index
     @companies = current_user.companies
-    @selected_companys = Company.find_by_id(params[:company_id]) || @companies.first
+    return unless @companies.present?
+
+    @selected_companys = @companies.find_by_id(params[:company_id]) || @companies.first
     @filter_options = @selected_companys.filter_options
     @filter_option_ids = params[:filter_option_id]&.split(',')
     @promos = if params[:company_id].present? && @filter_option_ids.present?

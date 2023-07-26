@@ -5,21 +5,55 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+User.destroy_all
+Company.destroy_all
+FilterOption.destroy_all
+Promo.destroy_all
+PromoFilterOption.destroy_all
 
 5.times do
   User.create!(
+    email: Faker::Internet.email,
+    password: 'password',
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
-    email: Faker::Internet.email(domain: 'gmail.com'),
-    age: 22,
-    password: '123456'
+    age: Faker::Number.between(from: 18, to: 65),
+    dob: Faker::Date.birthday(min_age: 18, max_age: 65)
+  )
+end
+
+3.times do
+  Company.create!(
+    name: Faker::Company.name,
+    email: Faker::Internet.email,
+    user: User.all.sample
+  )
+end
+
+5.times do
+  FilterOption.create!(
+    name: Faker::Lorem.word,
+    is_active: Faker::Boolean.boolean,
+    company: Company.all.sample
   )
 end
 
 2.times do
-  Company.create!(
-    name: Faker::Company.name,
-    email: Faker::Internet.email(domain: 'gmail.com'),
-    user_id: 2
+  Promo.create!(
+    name: Faker::Commerce.product_name,
+    start_date: Faker::Date.forward(days: 30),
+    end_date: Faker::Date.forward(days: 60),
+    description: Faker::Lorem.sentence,
+    company: Company.all.sample
   )
+end
+
+Promo.all.each do |promo|
+  rand(1..3).times do
+    promo_filter_option = PromoFilterOption.new(
+      promo: promo,
+      filter_option: FilterOption.all.sample
+    )
+    promo_filter_option.save if promo_filter_option.valid?
+  end
 end

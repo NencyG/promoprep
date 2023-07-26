@@ -16,10 +16,10 @@
   )
 end
 
-5.times do
+2.times do
   Company.create!(
     name: Faker::Company.name,
     email: Faker::Internet.email(domain: 'gmail.com'),
-    user_id: 1
+    user_id: 2
   )
 end

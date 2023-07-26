@@ -5,11 +5,6 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-User.destroy_all
-Company.destroy_all
-FilterOption.destroy_all
-Promo.destroy_all
-PromoFilterOption.destroy_all
 
 5.times do
   User.create!(

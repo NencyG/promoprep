@@ -6,26 +6,28 @@ module Api::V1
 
     def index
       if @companies.present?
-        response_200('Fetched all the Companies Successfully',
-                            @companies)
+        companies = { companies: serialized_companies }
+        response_200('Fetched all the Companies Successfully', companies)
       else
         response_400('Company is not Available')
       end
     end
 
     def create
-      @company = Company.new(company_params.merge!(user_id: @current_user.id))
-      begin
-        @company.save!
-        response_200('Fetched all the Companies Successfully', @company)
-      rescue StandardError => e
-        response_422(e.message, 'Failed to save the Company.')
+      @company = Company.new(company_params.merge(user_id: @current_user.id))
+
+      if @company.save
+        company = { company: serialized_company }
+        response_200('Company created successfully', company)
+      else
+        response_422(@company.errors.full_messages.join(', '), 'Failed to save the Company.')
       end
     end
 
     def show
       if @company
-        response_200('Success', @company)
+        company = { company: serialized_company }
+        response_200('Success', company)
       else
         response_400('Company could not be Found')
       end
@@ -33,21 +35,22 @@ module Api::V1
 
     def update
       if @company.present?
-        begin
-          @company.update!(company_params)
-          response_200('Company was updated Sucessfully', @company)
-        rescue StandardError => e
-          response_422(e.message, 'Failed to update the Company.')
+        if @company.update(company_params)
+          company = { company: serialized_company }
+          response_200('Company was updated Successfully', company)
+        else
+          response_422(@company.errors.full_messages.join(', '), 'Failed to update the Company.')
         end
       else
-        response_400('You can not Update this Company')
+        response_400('You cannot Update this Company')
       end
     end
 
     def destroy
       if @company.present?
         @company.destroy
-        response_200('Company was Delete Successfully', @company)
+        company = { company: serialized_company }
+        response_200('Company was Deleted Successfully', company)
       else
         response_400('Company does not Exist')
       end
@@ -65,6 +68,14 @@ module Api::V1
 
     def find_company
       @company = @companies.find_by(id: params[:id])
+    end
+
+    def serialized_companies
+      CompanySerializer.new(@companies).serializable_hash[:data]
+    end
+
+    def serialized_company
+      CompanySerializer.new(@company).serializable_hash[:data]
     end
   end
 end

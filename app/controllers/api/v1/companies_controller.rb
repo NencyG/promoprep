@@ -16,7 +16,7 @@ module Api::V1
     def create
       @company = Company.new(company_params.merge(user_id: @current_user.id))
 
-      if @company.save
+      if @company.save!
         company = { company: serialized_company }
         response_200('Company created successfully', company)
       else

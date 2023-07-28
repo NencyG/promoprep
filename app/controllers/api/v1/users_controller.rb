@@ -16,19 +16,12 @@ module Api::V1
     end
 
     def create
-      @user = User.new(user_params = {
-                         email: params[:email],
-                         password: params[:password],
-                         first_name: params[:first_name],
-                         last_name: params[:last_name],
-                         age: params[:age],
-                         dob: params[:dob]
-                       })
+      @user = User.new(user)
       begin
         @user.save!
         token = JWT.encode({ user_id: @user.id }, Rails.application.secrets.secret_key_base, 'HS256')
         user  = serializable_user
-        response_200('User was created successfully!', { token:, user: user })
+        response_200('User was created successfully!', { token:, user: })
       rescue StandardError => e
         response_422(e.message, 'Failed to save user. Please try again Later')
       end
@@ -62,6 +55,17 @@ module Api::V1
       params.permit(
         :first_name, :last_name, :age, :dob, :email, :password, :password_confirmation
       )
+    end
+
+    def user
+      {
+        email: params[:user][:email],
+        password: params[:user][:password],
+        first_name: params[:user][:first_name],
+        last_name: params[:user][:last_name],
+        age: params[:user][:age],
+        dob: params[:user][:dob]
+      }
     end
 
     def find_user

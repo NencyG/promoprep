@@ -6,27 +6,22 @@ module Api::V1
 
     def index
       @users = User.all
-      @users.present? ? response_200('Fetched all the User Successfully', @users) : response_400('User is not Available')
+      users  = { users: serialized_users }
+      @users.present? ? response_200('Fetched all the User Successfully', users) : response_400('User is not Available')
     end
 
     def show
-      response_200('Success', @user)
+      user = { user: serializable_user }
+      response_200('Success', user)
     end
 
     def create
-      @user = User.new(user_params = {
-                         email: params[:email],
-                         password: params[:password],
-                         first_name: params[:first_name],
-                         last_name: params[:last_name],
-                         age: params[:age],
-                         dob: params[:dob]
-                       })
+      @user = User.new(user)
       begin
         @user.save!
         token = JWT.encode({ user_id: @user.id }, Rails.application.secrets.secret_key_base, 'HS256')
-        render json: { token:, first_name: @user.first_name, message: 'User was created successfully!',
-                       data: @user }, status: :ok
+        user  = serializable_user
+        response_200('User was created successfully!', { token:, user: })
       rescue StandardError => e
         response_422(e.message, 'Failed to save user. Please try again Later')
       end
@@ -36,7 +31,8 @@ module Api::V1
       if @user.present?
         begin
           @user.update!(user_params)
-          response_200('User was Updated Sucessfully', @user)
+          user = serializable_user
+          response_200('User was Updated Sucessfully', { user: })
         rescue StandardError => e
           response_422(e.message, 'Failed to Update the User')
         end
@@ -49,21 +45,41 @@ module Api::V1
       return unless @user.present?
 
       @user.destroy
-      response_200('User was Delete Successfully')
+      user = { user: serializable_user }
+      response_200('User was Delete Successfully', user)
     end
 
     private
-
-    def find_user
-      @user = User.find(id: params[:id])
-    rescue ActiveRecord::RecordNotFound
-      response_400('User not Found')
-    end
 
     def user_params
       params.permit(
         :first_name, :last_name, :age, :dob, :email, :password, :password_confirmation
       )
+    end
+
+    def user
+      {
+        email: params[:user][:email],
+        password: params[:user][:password],
+        first_name: params[:user][:first_name],
+        last_name: params[:user][:last_name],
+        age: params[:user][:age],
+        dob: params[:user][:dob]
+      }
+    end
+
+    def find_user
+      @user = User.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      response_400('User not Found')
+    end
+
+    def serialized_users
+      UserSerializer.new(User.all).serializable_hash[:data]
+    end
+
+    def serializable_user
+      UserSerializer.new(@user).serializable_hash[:data]
     end
   end
 end
